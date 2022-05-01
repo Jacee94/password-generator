@@ -7,6 +7,7 @@ var length;
 
 //Generated password variable
 var password = "";
+var passChar = "";
 
 //String for the password generator to choose from
 var alphabetString = "abcdefghijklmnopqrstuvwxyz";
@@ -25,36 +26,44 @@ function writePassword() {
 }
 
 function generatePassword(){
+  password = "";
+
   getPasswordLength();
   getUserInput();
 
   //String for the next character in password to be chosen from
-  var passChar;
+  
 
-  //while(password.length < length){
+  while(password.length < length){
+    passChar = "";
     //Pick a random lowercase letter as a potential character choice to add
     if(lowercase){
-      lowercaseChoice = alphabetString.charAt(Math.floor(Math.random() * 25));
+      lowercaseChoice = alphabetString.charAt(Math.floor(Math.random() * (alphabetString.length - .001)));
       passChar = lowercaseChoice;
     } 
     //Pick a random uppercase letter as a potential character choice to add
     if(uppercase){
-      var uppercaseChoice = alphabetString.charAt(Math.floor(Math.random() * 25));
+      var uppercaseChoice = alphabetString.charAt(Math.floor(Math.random() * (alphabetString.length - .001)));
       uppercaseChoice = uppercaseChoice.toUpperCase();
       passChar = passChar + uppercaseChoice;
     }
     //Pick a random number as a potential character to add
     if(numeric){
-      var numberChoice = numberString.charAt(Math.floor(Math.random() * 9));
+      var numberChoice = numberString.charAt(Math.floor(Math.random() * (numberString.length - .001)));
       passChar = passChar + numberChoice;
     }
     //Pick a random special character as a potential character to add
     if(special){
-      var specialChoice = specialString.charAt(Math.floor(Math.random() * (specialString.length - 1)));
+      var specialChoice = specialString.charAt(Math.floor(Math.random() * (specialString.length - .001)));
       passChar = passChar + specialChoice;
     }
 
-  //}
+    //Choose a random character from passChar and add it to the password
+    password = password + passChar.charAt(Math.floor(Math.random() * (passChar.length - .001)));
+    console.log(password + " " + password.length);
+  }
+
+  return password;
 }
 
 //Gets password length and validates the value
