@@ -32,18 +32,28 @@ function generatePassword(){
   var passChar;
 
   //while(password.length < length){
-    //Pick a lowercase letter as a potential character choice to add
+    //Pick a random lowercase letter as a potential character choice to add
     if(lowercase){
       lowercaseChoice = alphabetString.charAt(Math.floor(Math.random() * 25));
       passChar = lowercaseChoice;
     } 
-    //Pick an uppercase letter as a potential character choice to add
+    //Pick a random uppercase letter as a potential character choice to add
     if(uppercase){
       var uppercaseChoice = alphabetString.charAt(Math.floor(Math.random() * 25));
       uppercaseChoice = uppercaseChoice.toUpperCase();
       passChar = passChar + uppercaseChoice;
     }
-    
+    //Pick a random number as a potential character to add
+    if(numeric){
+      var numberChoice = numberString.charAt(Math.floor(Math.random() * 9));
+      passChar = passChar + numberChoice;
+    }
+    //Pick a random special character as a potential character to add
+    if(special){
+      var specialChoice = specialString.charAt(Math.floor(Math.random() * (specialString.length - 1)));
+      passChar = passChar + specialChoice;
+    }
+
   //}
 }
 
