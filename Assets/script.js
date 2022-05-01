@@ -33,7 +33,6 @@ function generatePassword(){
 
   //String for the next character in password to be chosen from
   
-
   while(password.length < length){
     passChar = "";
     //Pick a random lowercase letter as a potential character choice to add
@@ -60,7 +59,6 @@ function generatePassword(){
 
     //Choose a random character from passChar and add it to the password
     password = password + passChar.charAt(Math.floor(Math.random() * (passChar.length - .001)));
-    console.log(password + " " + password.length);
   }
 
   return password;
