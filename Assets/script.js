@@ -28,13 +28,22 @@ function generatePassword(){
   getPasswordLength();
   getUserInput();
 
+  //String for the next character in password to be chosen from
   var passChar;
 
   //while(password.length < length){
+    //Pick a lowercase letter as a potential character choice to add
     if(lowercase){
-      passChar = alphabetString.charAt(25);
-      console.log(passChar);
+      lowercaseChoice = alphabetString.charAt(Math.floor(Math.random() * 25));
+      passChar = lowercaseChoice;
+    } 
+    //Pick an uppercase letter as a potential character choice to add
+    if(uppercase){
+      var uppercaseChoice = alphabetString.charAt(Math.floor(Math.random() * 25));
+      uppercaseChoice = uppercaseChoice.toUpperCase();
+      passChar = passChar + uppercaseChoice;
     }
+    
   //}
 }
 
