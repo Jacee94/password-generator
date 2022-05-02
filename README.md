@@ -14,5 +14,10 @@ Code used in this Repo:
  - HTML
  - CSS
  - JavaScript
+
+### Links
+ - GitHub: https://github.com/Jacee94/password-generator
+ - Deployed: https://jacee94.github.io/password-generator/
+
 ### Snapshot
 ![Picture of the password generator app](https://raw.githubusercontent.com/Jacee94/password-generator/develop/Assets/images/readme-snapshot.JPG)
