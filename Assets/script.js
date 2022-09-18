@@ -1,43 +1,88 @@
-//User input variables
-var lowercase;
-var uppercase;
-var numeric;
-var special;
-var length;
-
-//Generated password variable
-var password = "";
-var passChar = "";
-
 //String for the password generator to choose from
 var alphabetString = "abcdefghijklmnopqrstuvwxyz";
 var numberString = "1234567890";
 var specialString = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~";
 
-// Get references to the #generate element
-var generateBtn = document.querySelector("#generate");
+var charLen;
+var password = '';
 
-// Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+// Add event listener to generate button
+$('#generate').click(() => {
+  startPasswordGeneration();
+  $('#next-btn').data('step', 0);
+})
 
-  passwordText.value = password;
+$('#next-btn').click(() => {
+  const $btnStep = $('#next-btn').data('step');
+
+  if($btnStep === 0) validateCharLength();
+  else if($btnStep === 1) validateRadioInput();
+})
+
+$("#password-modal").on("hidden.bs.modal", () => {
+  $('.form-group').html('');
+  $('#next-btn').data('step', 0)
+  charLen = 0;
+  password = '';
+});
+
+function startPasswordGeneration(){
+  const modalStartHtml = `<label for="input-field" class="col-form-label" id="input-field-text"></label>
+                          <input type="text" class="form-control" id="input-field">`;
+  
+  $('.form-group').append(modalStartHtml);
+  $('#passwordModalLabel').text('Character Length');
+  $('#input-field-text').text('Please enter how long you would like your password to be:\n(Whole number between 7 and 129 characters long)');
 }
 
-function generatePassword(){
-  password = "";
+function validateCharLength(){
+  const $charLen = parseInt($('#input-field').val());
 
-  getPasswordLength();
-  getUserInput();
+  if(typeof $charLen === 'number' && $charLen > 7 && $charLen < 129){
+    charLen = $charLen;
+    $('#next-btn').data('step', 1);
+    getUserInput(false);
+  } else {
+    $('#input-field').val('');
+    $('#input-field').attr('placeholder', 'PLEASE ENTER AN APPROPRIATE NUMBER');
+  }
+}
 
-  //String for the next character in password to be chosen from
-  
-  while(password.length < length){
+//Gets user input and validates the data
+function getUserInput(failValidate){
+  $('#next-btn').data('step', 1);
+  const validation = failValidate ? `<p>Please make a selection for all fields</p>` : '' ;
+
+  const htmlInput = validation + `<p>Would you like to use Lowercase Letters? <input type='radio' name='lowercase' id='lower-yes' value='yes'></input><label for='lower-yes'>&nbsp;Yes&nbsp;</label><input type='radio' name='lowercase' id='lower-no' value='no'></input><label for='lower-no'>&nbsp;No&nbsp;</label></p>
+  <p>Would you like to use Uppercase Letters? <input type='radio' name='uppercase' id='upper-yes' value='yes'></input><label for='upper-yes'>&nbsp;Yes&nbsp;</label><input type='radio' name='uppercase' id='upper-no' value='no'></input><label for='upper-no'>&nbsp;No&nbsp;</label></p>
+  <p>Would you like to use Numbers? <input type='radio' name='number' id='number-yes' value='yes'></input><label for='number-yes'>&nbsp;Yes&nbsp;</label><input type='radio' name='number' id='number-no' value='no'></input><label for='number-no'>&nbsp;No&nbsp;</label></p>
+  <p>Would you like to use Special Characters? <input type='radio' name='special' id='special-yes' value='yes'></input><label for='special-yes'>&nbsp;Yes&nbsp;</label><input type='radio' name='special' id='special-no' value='no'></input><label for='special-no'>&nbsp;No&nbsp;</label></p>`;
+
+  $('.form-group').html('');
+  $('.form-group').append(htmlInput);
+}
+
+function validateRadioInput(){
+  let l = $('input[name="lowercase"]:checked').val() === 'yes' ? true : false;
+  let u = $('input[name="uppercase"]:checked').val() === 'yes' ? true : false;
+  let n = $('input[name="number"]:checked').val() === 'yes' ? true : false;
+  let s = $('input[name="special"]:checked').val() === 'yes' ? true : false;
+
+  if(l || u || n || s) {
+      writePassword(generatePassword(l, u, n, s));
+  } else {
+    getUserInput(true);
+  }
+}
+
+function generatePassword(lowercase, uppercase, number, special){
+  let passChar;
+
+  while(password.length < charLen){
     passChar = "";
     //Pick a random lowercase letter as a potential character choice to add
     if(lowercase){
-      lowercaseChoice = alphabetString.charAt(Math.floor(Math.random() * (alphabetString.length - .001)));
+      let lowercaseChoice = alphabetString.charAt(Math.floor(Math.random() * (alphabetString.length - .001)));
       passChar = lowercaseChoice;
     } 
     //Pick a random uppercase letter as a potential character choice to add
@@ -47,7 +92,7 @@ function generatePassword(){
       passChar = passChar + uppercaseChoice;
     }
     //Pick a random number as a potential character to add
-    if(numeric){
+    if(number){
       var numberChoice = numberString.charAt(Math.floor(Math.random() * (numberString.length - .001)));
       passChar = passChar + numberChoice;
     }
@@ -64,30 +109,8 @@ function generatePassword(){
   return password;
 }
 
-//Gets password length and validates the value
-function getPasswordLength(){
-  length = window.prompt("Please enter your desired password length (min 8 characters, max 128)");
-  
-  while(length < 8 || length > 128){
-    length = window.prompt("ERROR: Input was not in the specified character length range. Please enter an appropriate length(min 8, max 128)");
-  }
+// Write password to the #password input
+function writePassword(pass) {
+  $('#password').val(pass);
+  $('#password-modal').modal('hide');
 }
-
-//Gets user input and validates the data
-function getUserInput(){
-  lowercase = window.confirm("Would you like to use lowercase letters?");
-
-  uppercase = window.confirm("Would you like to use uppercase letters?");
-
-  numeric = window.confirm("Would you like to use numbers?");
-
-  special = window.confirm("Would you like to use special characters?");
-  
-  if(lowercase == false && uppercase == false && numeric == false & special == false){
-    window.alert("You must use at least one of the previous character choices, please try again");
-    getUserInput();
-  }
-}
-
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
