@@ -20,4 +20,4 @@ Code used in this Repo:
  - Deployed: https://jacee94.github.io/password-generator/
 
 ### Snapshot
-![Picture of the password generator app](./assets/images/readme-snapshot.JPG)
+![Picture of the password generator app](./assets/images/screenshot.JPG)
