@@ -51,7 +51,7 @@ function validateCharLength(){
 //Gets user input and validates the data
 function getUserInput(failValidate){
   $('#next-btn').data('step', 1);
-  const validation = failValidate ? `<p>Please make a selection for all fields</p>` : '' ;
+  const validation = failValidate ? `<p>At least one field must have YES selected</p>` : '' ;
 
   const htmlInput = validation + `<p>Would you like to use Lowercase Letters? <input type='radio' name='lowercase' id='lower-yes' value='yes'></input><label for='lower-yes'>&nbsp;Yes&nbsp;</label><input type='radio' name='lowercase' id='lower-no' value='no'></input><label for='lower-no'>&nbsp;No&nbsp;</label></p>
   <p>Would you like to use Uppercase Letters? <input type='radio' name='uppercase' id='upper-yes' value='yes'></input><label for='upper-yes'>&nbsp;Yes&nbsp;</label><input type='radio' name='uppercase' id='upper-no' value='no'></input><label for='upper-no'>&nbsp;No&nbsp;</label></p>
